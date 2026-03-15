@@ -1,0 +1,292 @@
+/* =========================================
+   1. CSS VARIABLES & RESET
+   ========================================= */
+:root {
+    --bg-main: #141414;
+    --accent-cyan: #00d4ff;
+    --accent-cyan-hover: #00a8cc;
+    --text-light: #e5e5e5;
+    --text-white: #ffffff;
+    --font-main: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    
+    /* Spacing */
+    --padding-horizontal: 4%;
+    --spacing-rows: 3rem;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background-color: var(--bg-main);
+    color: var(--text-light);
+    font-family: var(--font-main);
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+}
+
+a {
+    text-decoration: none;
+}
+
+/* =========================================
+   2. HEADER & NAVIGATION
+   ========================================= */
+header {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    padding: 1rem var(--padding-horizontal);
+    z-index: 1000;
+    background: linear-gradient(to bottom, rgba(0,0,0,0.8) 0%, rgba(0,0,0,0) 100%);
+    transition: background-color 0.4s ease;
+}
+
+/* Class added via JS on scroll */
+header.scrolled {
+    background-color: var(--bg-main);
+    box-shadow: 0 2px 10px rgba(0,0,0,0.5);
+}
+
+.logo {
+    color: var(--accent-cyan);
+    font-size: 1.5rem;
+    font-weight: 900;
+    letter-spacing: 1px;
+}
+
+/* =========================================
+   3. HERO SECTION
+   ========================================= */
+.hero {
+    position: relative;
+    height: 80vh;
+    min-height: 500px;
+    /* O background estático foi removido daqui */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 0 var(--padding-horizontal);
+    overflow: hidden; /* Essencial para o vídeo não vazar dos limites da seção */
+}
+
+/* Configuração do Vídeo de Fundo */
+.hero-video {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* Faz o vídeo preencher todo o espaço sem distorcer, cortando as bordas se necessário */
+    z-index: 0;
+}
+
+/* Camada escura por cima do vídeo para garantir a leitura do texto */
+.hero::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.5); /* Você pode ajustar a opacidade (0.5) se quiser o vídeo mais claro ou escuro */
+    z-index: 1;
+}
+
+.hero-content {
+    position: relative;
+    z-index: 2; /* Garante que o texto fique acima do vídeo e da película escura */
+    max-width: 600px;
+    margin-top: 10vh;
+}
+
+.hero-title {
+    color: var(--text-white);
+    font-size: clamp(2.5rem, 5vw, 4rem);
+    line-height: 1.1;
+    margin-bottom: 1rem;
+    font-weight: 800;
+}
+
+.hero-description {
+    font-size: clamp(1rem, 2vw, 1.2rem);
+    margin-bottom: 2rem;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.8);
+}
+
+.hero-buttons {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+}
+
+.btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.8rem 2rem;
+    border-radius: 4px;
+    font-weight: bold;
+    font-size: 1.1rem;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    min-height: 44px; /* Thumb-friendly mobile requirement */
+}
+
+.btn-primary {
+    background-color: var(--accent-cyan);
+    color: var(--bg-main);
+    border: none;
+}
+
+.btn-primary:hover {
+    background-color: var(--accent-cyan-hover);
+    transform: scale(1.05);
+}
+
+.btn-secondary {
+    background-color: rgba(109, 109, 110, 0.7);
+    color: var(--text-white);
+}
+
+.btn-secondary:hover {
+    background-color: rgba(109, 109, 110, 0.4);
+}
+
+.hero-fade-bottom {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 150px;
+    background: linear-gradient(180deg, transparent, var(--bg-main));
+    z-index: 2;
+}
+
+/* =========================================
+   4. CONTENT ROWS & CARDS
+   ========================================= */
+.content-rows {
+    position: relative;
+    z-index: 3;
+    padding: 0 var(--padding-horizontal);
+    margin-top: -50px; /* Pull rows slightly over the hero fade */
+}
+
+.row {
+    margin-bottom: var(--spacing-rows);
+    padding-bottom: 2.5rem; /* Cria um respiro entre os cards e a linha divisória */
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1); /* Linha cinza escuro sutil e elegante */
+}
+
+/* Pseudo-classe para remover a linha da última fileira (deixa o rodapé mais limpo) */
+.row:last-child {
+    border-bottom: none;
+    padding-bottom: 0;
+}
+
+.row-title {
+    color: var(--text-light);
+    font-size: 1.2vw;
+    font-size: clamp(1.1rem, 2vw, 1.5rem);
+    margin-bottom: 0.8rem;
+    font-weight: 600;
+}
+
+/* Mobile First Grid */
+.grid-container {
+    display: grid;
+    grid-template-columns: 1fr; /* 1 card mobile */
+    gap: 1.5rem;
+}
+
+.card {
+    position: relative;
+    border-radius: 4px;
+    overflow: hidden;
+    background-color: #1a1a1a;
+    transition: transform 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94), box-shadow 0.3s;
+    cursor: pointer;
+}
+
+.card:hover {
+    transform: scale(1.05);
+    z-index: 10;
+    box-shadow: 0 10px 20px rgba(0,0,0,0.8);
+}
+
+.card-img {
+    width: 100%;
+    aspect-ratio: 16 / 9; /* Ensures standard thumbnail size */
+    object-fit: cover;
+    display: block;
+}
+
+.card-info {
+    padding: 1rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: linear-gradient(0deg, #141414 0%, transparent 100%);
+}
+
+.card-info h3 {
+    font-size: 1rem;
+    font-weight: 500;
+    color: var(--text-white);
+}
+
+.btn-affiliate {
+    font-size: 0.85rem;
+    color: var(--accent-cyan);
+    border: 1px solid var(--accent-cyan);
+    padding: 0.4rem 0.8rem;
+    border-radius: 4px;
+    transition: all 0.2s;
+    min-height: 44px; /* Thumb-friendly */
+    display: flex;
+    align-items: center;
+}
+
+.btn-affiliate:hover {
+    background-color: var(--accent-cyan);
+    color: var(--bg-main);
+}
+
+/* =========================================
+   5. RESPONSIVE MEDIA QUERIES
+   ========================================= */
+
+/* Tablet: 2 cards per row */
+@media (min-width: 768px) {
+    .grid-container {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 1rem;
+    }
+}
+
+/* Desktop: Cards flexíveis e centralizados */
+@media (min-width: 1024px) {
+    .grid-container {
+        display: grid;
+        /* Cria colunas automáticas com mínimo de 250px e máximo de 300px */
+        grid-template-columns: repeat(auto-fit, minmax(250px, 280px));
+        /* Centraliza o conteúdo (os cards) dentro da fileira */
+        justify-content: center;
+        gap: 1.5rem;
+    }
+    
+    .card-info {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        opacity: 0;
+        transition: opacity 0.3s ease;
+    }
+    
+    .card:hover .card-info {
+        opacity: 1; /* Estilo Netflix: info aparece ao passar o mouse */
+        background: rgba(20, 20, 20, 0.9);
+    }
+}
